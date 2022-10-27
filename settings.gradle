@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BarberAppointments"
 include ':app'
+include ':domain'
+include ':data'
