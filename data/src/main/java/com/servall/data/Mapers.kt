@@ -1,10 +1,9 @@
 package com.servall.data
 
-import com.servall.data.retrofit.ApiCalls
+import com.servall.data.entities.LoginResponse
 import com.servall.domain.entities.User
 
-
-fun ApiCalls.LoginResponse.toDomainUser(): User {
+fun LoginResponse.toModel(): User {
     return User(
         id = this.userId,
         userName = this.userName,

@@ -1,10 +1,10 @@
-package com.servall.data.retrofit
+package com.servall.data.remote
 
 import com.servall.domain.entities.Appointment
 import com.servall.domain.entities.Response
 import com.servall.domain.repositories.AppointmentRepository
 
-class AppointmentRepository: AppointmentRepository {
+class AppointmentRemoteRepository: AppointmentRepository {
     override suspend fun createAppointment(
         dateTime: Long,
         barberId: String,
