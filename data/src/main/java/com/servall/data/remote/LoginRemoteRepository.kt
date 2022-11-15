@@ -1,6 +1,6 @@
 package com.servall.data.remote
 
-import com.servall.data.encrypt
+import com.servall.data.extensions.encrypt
 import com.servall.data.entities.LoginDto
 import com.servall.data.extensions.handleApiResponse
 import com.servall.data.extensions.safeApiCall

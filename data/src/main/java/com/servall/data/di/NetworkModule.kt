@@ -11,7 +11,7 @@ import java.security.MessageDigest
 private const val BASE_URL =
     "http://appointmentsapi-env.eba-kxrrzgb3.us-west-2.elasticbeanstalk.com/"
 
-fun networkModule(isDebug: Boolean) = module {
+internal fun networkModule(isDebug: Boolean) = module {
     single { okHttp(isDebug) }
     single { retrofit(get()) }
     single { MessageDigest.getInstance("SHA-256") }

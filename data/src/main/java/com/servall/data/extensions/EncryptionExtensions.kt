@@ -1,4 +1,4 @@
-package com.servall.data
+package com.servall.data.extensions
 
 import java.security.MessageDigest
 
