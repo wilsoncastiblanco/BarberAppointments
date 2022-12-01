@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">BarberAppointments</string>
+    <string name="app_name" translatable="false">BarberAppointments</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Login -->
-    <string name="login_button">Login</string>
+    <string name="login_button">Iniciar Sesión</string>
     <string name="hint_user_name">user name</string>
     <string name="hint_password">password</string>
 </resources>

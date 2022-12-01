@@ -13,7 +13,7 @@ class AuthViewModel(
     private val loginRepository: LoginHybridRepository
 ) : ViewModel() {
 
-    private val _authState = MutableLiveData<AuthUiState>(AuthUiState.Loading)
+    private val _authState = MutableLiveData<AuthUiState>(AuthUiState.UnAuthenticated)
     val authState: LiveData<AuthUiState>
         get() = _authState
 
@@ -24,7 +24,7 @@ class AuthViewModel(
                     _authState.postValue(AuthUiState.Error(response.exception.message!!))
                 }
                 is Response.Success -> {
-                    _authState.postValue(AuthUiState.Data(user = response.data))
+                    _authState.postValue(AuthUiState.Authenticated(user = response.data))
                 }
             }
         }
@@ -33,6 +33,6 @@ class AuthViewModel(
 
 sealed class AuthUiState {
     data class Error(val message: String) : AuthUiState()
-    object Loading : AuthUiState()
-    data class Data(val user: User?) : AuthUiState()
+    object UnAuthenticated : AuthUiState()
+    data class Authenticated(val user: User?) : AuthUiState()
 }

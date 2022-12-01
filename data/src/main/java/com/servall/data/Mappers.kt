@@ -29,6 +29,6 @@ fun User.toDb(): UserEntity {
         userId = this.id,
         userName = this.userName,
         fullName = this.fullName,
-        password = this.password
+        password = this.password.orEmpty()
     )
 }

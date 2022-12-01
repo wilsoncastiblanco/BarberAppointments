@@ -6,5 +6,5 @@ data class User(
     val fullName: String,
     val role: String,
     //FIXME: DON'T DO THIS!
-    val password: String
+    val password: String?
 )

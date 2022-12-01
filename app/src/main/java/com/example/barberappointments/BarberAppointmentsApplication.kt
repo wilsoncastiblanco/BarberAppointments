@@ -1,6 +1,7 @@
 package com.example.barberappointments
 
 import android.app.Application
+import com.example.barberappointments.di.appModule
 import com.servall.data.di.dataModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -16,7 +17,7 @@ class BarberAppointmentsApplication : Application() {
             // Reference Android context
             androidContext(this@BarberAppointmentsApplication)
             // Load modules
-            modules(dataModules(isDebug = BuildConfig.DEBUG))
+            modules(dataModules(isDebug = BuildConfig.DEBUG), appModule)
         }
     }
 

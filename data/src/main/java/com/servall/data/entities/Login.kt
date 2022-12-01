@@ -10,5 +10,5 @@ data class LoginResponse(
     val fullName: String,
     val userName: String,
     val role: String,
-    val password: String
+    val password: String?
 )
