@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.barberappointments.R
 import com.example.barberappointments.login.AuthUiState
 import com.example.barberappointments.login.AuthViewModel
+import com.servall.domain.entities.Appointment
+import com.servall.domain.entities.User
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 /**
@@ -31,6 +35,35 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val appointmentsRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        appointmentsRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        val appointmentsAdapter = AppointmentsAdapter(requireContext())
+        val appointments = (1..100).map {
+            Appointment(
+                "$it",
+                dateTime = it.toLong(),
+                customer = User(
+                    "$it",
+                    userName = "User $it",
+                    fullName = "Name $it",
+                    role = "Role $it",
+                    password = null
+                ),
+                barber = User(
+                    "$it",
+                    userName = "User $it",
+                    fullName = "Name $it",
+                    role = "Role $it",
+                    password = null
+                )
+            )
+        }
+        appointmentsAdapter.setAppointments(appointments)
+        appointmentsRecyclerView.adapter = appointmentsAdapter
         observeAuthentication()
     }
 
