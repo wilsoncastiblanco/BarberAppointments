@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.barberappointments.R
 import com.example.barberappointments.login.AuthUiState
 import com.example.barberappointments.login.AuthViewModel
-import com.servall.domain.entities.Appointment
-import com.servall.domain.entities.User
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -24,6 +23,9 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 class HomeFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by activityViewModel()
+    private val barbersViewModel: BarbersViewModel by viewModel()
+
+    private lateinit var barbersAdapter: BarbersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,36 +37,26 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val appointmentsRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        appointmentsRecyclerView.layoutManager = LinearLayoutManager(
+        val barbersRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewBarbers)
+        barbersRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.VERTICAL,
             false
         )
-        val appointmentsAdapter = AppointmentsAdapter(requireContext())
-        val appointments = (1..100).map {
-            Appointment(
-                "$it",
-                dateTime = it.toLong(),
-                customer = User(
-                    "$it",
-                    userName = "User $it",
-                    fullName = "Name $it",
-                    role = "Role $it",
-                    password = null
-                ),
-                barber = User(
-                    "$it",
-                    userName = "User $it",
-                    fullName = "Name $it",
-                    role = "Role $it",
-                    password = null
-                )
-            )
-        }
-        appointmentsAdapter.setAppointments(appointments)
-        appointmentsRecyclerView.adapter = appointmentsAdapter
+        barbersAdapter = BarbersAdapter()
+        barbersRecyclerView.adapter = barbersAdapter
         observeAuthentication()
+        observeBarbersAvailable()
+    }
+
+    private fun observeBarbersAvailable() {
+        barbersViewModel.barberUiState.observe(viewLifecycleOwner) { barbersState ->
+            when(barbersState) {
+                is BarbersUiState.Data -> barbersAdapter.setBarbers(barbersState.barbers)
+                is BarbersUiState.Error -> Toast.makeText(requireContext(), "Error! ${barbersState.message}", Toast.LENGTH_LONG).show()
+                BarbersUiState.Loading -> {}
+            }
+        }
     }
 
     private fun observeAuthentication() {

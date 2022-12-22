@@ -18,6 +18,6 @@ interface ApiCalls {
     suspend fun listBarbers(
         @Query("weekDayRange") weekDayRange: String,
         @Query("hourRange") hourRange: String
-    ): List<BarberResponse>
+    ): Response<List<BarberResponse>>
 
 }

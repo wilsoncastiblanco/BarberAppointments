@@ -1,7 +1,9 @@
 package com.servall.data
 
+import com.servall.data.entities.BarberResponse
 import com.servall.data.entities.LoginResponse
 import com.servall.data.entities.UserEntity
+import com.servall.domain.entities.Barber
 import com.servall.domain.entities.User
 
 fun LoginResponse.toModel(): User {
@@ -12,6 +14,15 @@ fun LoginResponse.toModel(): User {
         role = this.role,
         password = this.password
     )
+}
+
+fun List<BarberResponse>.toModel(): List<Barber> {
+    return this.map {
+        Barber(
+            fullName = it.fullName,
+            barberId = it.userId
+        )
+    }
 }
 
 fun UserEntity.toModel(): User {
@@ -32,3 +43,4 @@ fun User.toDb(): UserEntity {
         password = this.password.orEmpty()
     )
 }
+
