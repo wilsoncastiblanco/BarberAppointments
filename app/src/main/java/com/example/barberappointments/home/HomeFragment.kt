@@ -1,5 +1,6 @@
 package com.example.barberappointments.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.barberappointments.R
 import com.example.barberappointments.login.AuthUiState
 import com.example.barberappointments.login.AuthViewModel
+import com.servall.domain.entities.Barber
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,17 +45,38 @@ class HomeFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
-        barbersAdapter = BarbersAdapter()
+        barbersAdapter = BarbersAdapter { barber ->
+            showAlertDialog(barber)
+        }
         barbersRecyclerView.adapter = barbersAdapter
         observeAuthentication()
         observeBarbersAvailable()
     }
 
+    private fun showAlertDialog(barber: Barber) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirm barber appointment")
+            .setMessage("Do you want to set an appointment with ${barber.fullName}?")
+            .setPositiveButton(
+                "Yes"
+            ) { dialog, which ->
+                barbersViewModel.setAppointment(barber, (authViewModel.authState.value as AuthUiState.Authenticated).user!!)
+            }
+            .setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
     private fun observeBarbersAvailable() {
         barbersViewModel.barberUiState.observe(viewLifecycleOwner) { barbersState ->
-            when(barbersState) {
+            when (barbersState) {
                 is BarbersUiState.Data -> barbersAdapter.setBarbers(barbersState.barbers)
-                is BarbersUiState.Error -> Toast.makeText(requireContext(), "Error! ${barbersState.message}", Toast.LENGTH_LONG).show()
+                is BarbersUiState.Error -> Toast.makeText(
+                    requireContext(),
+                    "Error! ${barbersState.message}",
+                    Toast.LENGTH_LONG
+                ).show()
                 BarbersUiState.Loading -> {}
             }
         }

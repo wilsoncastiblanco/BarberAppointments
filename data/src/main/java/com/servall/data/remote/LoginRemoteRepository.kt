@@ -1,9 +1,7 @@
 package com.servall.data.remote
 
-import com.servall.data.extensions.encrypt
 import com.servall.data.entities.LoginDto
 import com.servall.data.extensions.handleApiResponse
-import com.servall.data.extensions.safeApiCall
 import com.servall.data.toModel
 import com.servall.domain.entities.Response
 import com.servall.domain.entities.User
@@ -12,7 +10,8 @@ import java.security.MessageDigest
 
 class LoginRemoteRepository(
     private val api: ApiCalls,
-    private val sha256Generator: MessageDigest
+    private val sha256Generator: MessageDigest,
+    private val safeApiCall: SafeApiCall
 ) : LoginRepository {
 
     override suspend fun login(userName: String, password: String): Response<User> {

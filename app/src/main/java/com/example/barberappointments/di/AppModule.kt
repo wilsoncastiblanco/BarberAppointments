@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { AuthViewModel(loginRepository = get()) }
-    viewModel { BarbersViewModel(barbersRemoteRepository = get()) }
+    viewModel { BarbersViewModel(barbersRemoteRepository = get(), appointmentRemoteRepository = get()) }
 }

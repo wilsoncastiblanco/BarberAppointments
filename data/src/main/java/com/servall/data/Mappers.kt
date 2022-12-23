@@ -1,8 +1,10 @@
 package com.servall.data
 
+import com.servall.data.entities.AppointmentResponse
 import com.servall.data.entities.BarberResponse
 import com.servall.data.entities.LoginResponse
 import com.servall.data.entities.UserEntity
+import com.servall.domain.entities.Appointment
 import com.servall.domain.entities.Barber
 import com.servall.domain.entities.User
 
@@ -20,9 +22,18 @@ fun List<BarberResponse>.toModel(): List<Barber> {
     return this.map {
         Barber(
             fullName = it.fullName,
-            barberId = it.userId
+            id = it.userId
         )
     }
+}
+
+fun AppointmentResponse.toModel(): Appointment {
+    return Appointment(
+        id = this.id,
+        dateTime = this.datetime,
+        customer = this.customer,
+        barber = this.barber
+    )
 }
 
 fun UserEntity.toModel(): User {

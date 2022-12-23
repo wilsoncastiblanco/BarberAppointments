@@ -19,10 +19,3 @@ fun <E : Any, T : Any> ApiResponse<T>.handleApiResponse(map: (body: T) -> E): Re
     }
 }
 
-suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Response<T> {
-    return try {
-        call()
-    } catch (e: Exception) {
-        Response.Error(e)
-    }
-}

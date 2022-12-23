@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.barberappointments.R
 import com.servall.domain.entities.Barber
 
-class BarbersAdapter : RecyclerView.Adapter<BarbersViewHolder>() {
+class BarbersAdapter(
+    val onBarberSelected: (Barber) -> Unit
+) : RecyclerView.Adapter<BarbersViewHolder>() {
 
     private val barbers = mutableListOf<Barber>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarbersViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.element_barbers, parent, false)
-        return BarbersViewHolder(view)
+        return BarbersViewHolder(view, onBarberSelected)
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +36,7 @@ class BarbersAdapter : RecyclerView.Adapter<BarbersViewHolder>() {
 
 }
 
-class BarbersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class BarbersViewHolder(itemView: View, val onBarberSelected: (Barber) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView: TextView
 
@@ -43,6 +45,7 @@ class BarbersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(barber: Barber) {
+        itemView.setOnClickListener { onBarberSelected(barber) }
         nameTextView.text = barber.fullName
     }
 }
