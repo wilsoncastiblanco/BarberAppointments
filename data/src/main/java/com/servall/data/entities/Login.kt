@@ -6,7 +6,7 @@ data class LoginDto(
 )
 
 data class LoginResponse(
-    val userId: String,
+    val id: String,
     val fullName: String,
     val userName: String,
     val role: String,

@@ -8,6 +8,11 @@ import org.koin.dsl.module
 private const val DB_BARBERSHOP = "barbershop_db"
 
 val databaseModule = module {
-    single { Room.databaseBuilder(androidContext(), BarbershopDatabase::class.java, DB_BARBERSHOP).build() }
+    single {
+        Room.databaseBuilder(androidContext(), BarbershopDatabase::class.java, DB_BARBERSHOP)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
     single { get<BarbershopDatabase>().userDao() }
+    single { get<BarbershopDatabase>().appointmentDao() }
 }

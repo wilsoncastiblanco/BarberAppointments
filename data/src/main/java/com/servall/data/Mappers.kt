@@ -6,11 +6,12 @@ import com.servall.data.entities.LoginResponse
 import com.servall.data.entities.UserEntity
 import com.servall.domain.entities.Appointment
 import com.servall.domain.entities.Barber
+import com.servall.domain.entities.Customer
 import com.servall.domain.entities.User
 
 fun LoginResponse.toModel(): User {
     return User(
-        id = this.userId,
+        id = this.id,
         userName = this.userName,
         fullName = this.fullName,
         role = this.role,
@@ -22,7 +23,7 @@ fun List<BarberResponse>.toModel(): List<Barber> {
     return this.map {
         Barber(
             fullName = it.fullName,
-            id = it.userId
+            id = it.id
         )
     }
 }
@@ -30,7 +31,7 @@ fun List<BarberResponse>.toModel(): List<Barber> {
 fun AppointmentResponse.toModel(): Appointment {
     return Appointment(
         id = this.id,
-        dateTime = this.datetime,
+        datetime = this.datetime,
         customer = this.customer,
         barber = this.barber
     )
@@ -38,7 +39,7 @@ fun AppointmentResponse.toModel(): Appointment {
 
 fun UserEntity.toModel(): User {
     return User(
-        id = this.userId,
+        id = this.id,
         userName = this.userName,
         fullName = this.fullName,
         role = this.role,
@@ -46,12 +47,28 @@ fun UserEntity.toModel(): User {
     )
 }
 
-fun User.toDb(): UserEntity {
+fun User.toEntity(): UserEntity {
     return UserEntity(
-        userId = this.id,
+        id = this.id,
         userName = this.userName,
         fullName = this.fullName,
-        password = this.password.orEmpty()
+        password = this.password.orEmpty(),
+        role  = this.role
     )
 }
+
+fun UserEntity.toCustomerModel(): Customer {
+    return Customer(
+        id = this.id,
+        fullName = this.fullName,
+    )
+}
+
+fun UserEntity.toBarberModel(): Barber {
+    return Barber(
+        id = this.id,
+        fullName = this.fullName,
+    )
+}
+
 

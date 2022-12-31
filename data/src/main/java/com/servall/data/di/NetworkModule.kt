@@ -2,9 +2,11 @@ package com.servall.data.di
 
 import com.servall.data.remote.ApiCalls
 import com.servall.data.remote.SafeApiCall
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,7 +20,8 @@ internal fun networkModule(isDebug: Boolean) = module {
     single { retrofit(get()) }
     single { MessageDigest.getInstance("SHA-256") }
     single { get<Retrofit>().create(ApiCalls::class.java) }
-    single { SafeApiCall(context = androidContext()) }
+    single(named("Dispatchers.IO")) { Dispatchers.IO }
+    single { SafeApiCall(context = androidContext(), ioCoroutineDispatcher = get(named("Dispatchers.IO"))) }
 }
 
 private fun okHttp(isDebug: Boolean): OkHttpClient = OkHttpClient.Builder()

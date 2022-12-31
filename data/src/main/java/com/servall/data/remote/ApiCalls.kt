@@ -1,6 +1,6 @@
 package com.servall.data.remote
 
-import com.servall.data.entities.AppointmentDto
+import com.servall.data.entities.AppointmentNetworkDto
 import com.servall.data.entities.AppointmentResponse
 import com.servall.data.entities.BarberResponse
 import com.servall.data.entities.LoginDto
@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiCalls {
@@ -24,5 +25,8 @@ interface ApiCalls {
     ): Response<List<BarberResponse>>
 
     @POST("appointment")
-    suspend fun createAppointment(@Body appointmentDto: AppointmentDto): Response<AppointmentResponse>
+    suspend fun createAppointment(@Body appointmentDto: AppointmentNetworkDto): Response<AppointmentResponse>
+
+    @GET("customer/{id}/appointments")
+    suspend fun listAppointments(@Path("id") customerId: String): Response<List<Appointment>>
 }

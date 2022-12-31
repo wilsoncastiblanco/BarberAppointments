@@ -1,12 +1,15 @@
 package com.servall.data.remote
 
-import com.servall.data.entities.AppointmentDto
+import com.servall.data.entities.AppointmentNetworkDto
 import com.servall.data.extensions.handleApiResponse
 import com.servall.data.toModel
 import com.servall.domain.entities.Appointment
 import com.servall.domain.entities.Response
 import com.servall.domain.repositories.AppointmentRepository
+import kotlinx.coroutines.flow.Flow
 
+//Single Source of truth
+//Offline first
 class AppointmentRemoteRepository(
     private val api: ApiCalls,
     private val safeApiCall: SafeApiCall
@@ -15,21 +18,40 @@ class AppointmentRemoteRepository(
         dateTime: Long,
         barberId: String,
         customerId: String
-    ): Response<Appointment> {
+    ): Response<String> {
         return safeApiCall {
             val response = api.createAppointment(
-                AppointmentDto(
+                AppointmentNetworkDto(
                     datetime = dateTime,
                     barberId = barberId,
                     clientId = customerId
                 )
             )
-            response.handleApiResponse { body -> body.toModel() }
+            response.handleApiResponse { body -> body.id }
         }
     }
 
-    override suspend fun listCustomerAppointments(customerId: String): Response<List<Appointment>> {
+    override suspend fun createAppointment(
+        id: String,
+        dateTime: Long,
+        barberId: String,
+        customerId: String
+    ): Response<String> {
         TODO("Not yet implemented")
+    }
+
+    override fun listStreamCustomerAppointments(customerId: String): Flow<Response<List<Appointment>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun listStreamBarberAppointments(barberId: String): Flow<Response<List<Appointment>>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchAppointments(customerId: String): Response<List<Appointment>> {
+        return safeApiCall {
+            api.listAppointments(customerId).handleApiResponse { it }
+        }
     }
 
     override suspend fun listBarberAppointments(barberId: String): Response<List<Appointment>> {

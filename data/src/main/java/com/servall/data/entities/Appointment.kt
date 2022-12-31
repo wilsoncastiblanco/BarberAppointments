@@ -2,7 +2,6 @@ package com.servall.data.entities
 
 import com.servall.domain.entities.Barber
 import com.servall.domain.entities.Customer
-import com.servall.domain.entities.User
 
 data class AppointmentResponse(
     val id: String,
@@ -11,7 +10,7 @@ data class AppointmentResponse(
     val customer: Customer
 )
 
-data class AppointmentDto(
+data class AppointmentNetworkDto(
     val id: String = "-1",
     val datetime: Long,
     val barberId: String,

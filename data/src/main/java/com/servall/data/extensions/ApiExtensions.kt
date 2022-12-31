@@ -8,7 +8,12 @@ fun <E : Any, T : Any> ApiResponse<T>.handleApiResponse(map: (body: T) -> E): Re
     return if (this.isSuccessful) {
         val body = this.body()
         if (body != null) {
-            Response.Success(map(body))
+            try {
+                val type = map(body)
+                Response.Success(type)
+            } catch (exception: Exception) {
+                Response.Error(exception)
+            }
         } else {
             Response.Error(NullBodyException())
         }

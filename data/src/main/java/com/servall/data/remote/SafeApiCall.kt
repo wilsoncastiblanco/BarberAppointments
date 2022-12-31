@@ -4,9 +4,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.servall.data.exceptions.OfflineException
 import com.servall.domain.entities.Response
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 class SafeApiCall(
-    val context: Context
+    val context: Context,
+    private val ioCoroutineDispatcher: CoroutineDispatcher
 ) {
     private val connectivityManager: ConnectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -20,7 +23,9 @@ class SafeApiCall(
             Response.Error(OfflineException())
         } else {
             try {
-                call()
+                withContext(ioCoroutineDispatcher) {
+                    call()
+                }
             } catch (e: Exception) {
                 Response.Error(e)
             }

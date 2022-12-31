@@ -1,4 +1,4 @@
-package com.example.barberappointments.home
+package com.example.barberappointments.availablebarbers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.barberappointments.R
 import com.servall.domain.entities.Barber
 
-class BarbersAdapter(
-    val onBarberSelected: (Barber) -> Unit
+class AvailableBarbersAdapter(
+    private val onBarberSelected: (Barber) -> Unit
 ) : RecyclerView.Adapter<BarbersViewHolder>() {
 
     private val barbers = mutableListOf<Barber>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarbersViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.element_barbers, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_barber, parent, false)
         return BarbersViewHolder(view, onBarberSelected)
     }
 

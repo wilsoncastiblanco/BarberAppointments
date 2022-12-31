@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.servall.data.LoginHybridRepository
+import com.servall.data.datasource.LoginDataSourceRepository
 import com.servall.domain.entities.Response
 import com.servall.domain.entities.User
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val loginRepository: LoginHybridRepository
+    private val loginRepository: LoginDataSourceRepository
 ) : ViewModel() {
 
     private val _authState = MutableLiveData<AuthUiState>(AuthUiState.UnAuthenticated)

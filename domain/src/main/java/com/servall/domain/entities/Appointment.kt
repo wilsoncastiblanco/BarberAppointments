@@ -1,8 +1,9 @@
 package com.servall.domain.entities
 
- data class Appointment(
+
+data class Appointment(
     val id: String,
-    val dateTime: Long,
+    val datetime: Long,
     val customer: Customer,
     val barber: Barber
 )
